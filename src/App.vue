@@ -1,9 +1,19 @@
 <template>
   <div id="app">
-    <van-button type="primary">主要按钮</van-button>
     <router-view/>
+    <tab-bar />
   </div>
 </template>
+
+<script>
+import tabBar from '@/components/tabBar.vue';
+
+export default {
+  components: {
+    tabBar,
+  },
+};
+</script>
 
 <style lang="less">
 body{
@@ -15,11 +25,6 @@ body{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  .box{
-    width: 750px;
-    height: 100px;
-    background: rgb(247, 0, 0);
-  }
 }
 
 </style>
