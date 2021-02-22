@@ -66,6 +66,9 @@ export default {
     width: 375px;
     overflow-x:auto;
     display: flex;
+    &::-webkit-scrollbar{
+        width: 0;
+    }
     .item-tab{
         width: 50px;
         height: 70px;
