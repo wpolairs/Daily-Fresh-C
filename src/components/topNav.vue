@@ -15,6 +15,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -66,6 +67,8 @@ export default {
         this.moveTo(tabNav.scrollLeft,
           target.getBoundingClientRect().left
           - tabNav.clientWidth / 2 + target.clientWidth / 2, tabNav);
+        // 获取左侧导航数据
+        this.$emit('getSideList', this.tabList[index].title);
       }
     },
     moveTo(start, end, dom) {
