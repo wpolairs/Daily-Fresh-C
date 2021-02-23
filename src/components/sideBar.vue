@@ -2,7 +2,7 @@
   <div class="side-bar">
     <van-sidebar v-model="activeKey">
       <van-sidebar-item
-      :title="item"
+      :title="typeof item === 'number' ? '全部' : item"
       v-for="(item, index) in sideList"
       :key="index"
       @touchend.native="handleChange($event)"/>
