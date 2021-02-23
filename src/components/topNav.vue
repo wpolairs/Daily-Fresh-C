@@ -1,11 +1,13 @@
 <template>
-    <div class="topNav">
+    <div class="topNav" ref="tabNav">
         <div
         class="item-tab"
         :class="{ active:isActive === index }"
         v-for="(item, index) in tabList"
         :key="index"
-        @click="handleClick(index)">
+        @touchend="handleClick(index, $event)"
+        @touchstart='move = true'
+        @touchmove='move = false'>
             <img :src="item.imgUrl" alt="">
             <div class="category">{{ item.title }}</div>
         </div>
@@ -17,6 +19,7 @@ export default {
   data() {
     return {
       isActive: 0,
+      move: true,
       tabList: [
         {
           imgUrl: 'https://cdn.pixabay.com/photo/2010/12/13/10/05/berries-2277__340.jpg',
@@ -54,9 +57,31 @@ export default {
     };
   },
   methods: {
-    handleClick(index) {
-      this.isActive = index;
-      console.log(index);
+    handleClick(index, e) {
+      if (this.move) {
+        this.isActive = index;
+        const { tabNav } = this.$refs;
+        const { target } = e;
+        // tabNav.scrollLeft = target.offsetLeft - tabNav.clientWidth / 2 + target.clientWidth / 2;
+        this.moveTo(tabNav.scrollLeft,
+          target.getBoundingClientRect().left
+          - tabNav.clientWidth / 2 + target.clientWidth / 2, tabNav);
+      }
+    },
+    moveTo(start, end, dom) {
+      const el = dom;
+      let speed = 5;
+      let dis = 0;
+      if (end < 0) {
+        speed *= -1;
+      }
+      const timer = setInterval(() => {
+        dis += speed;
+        el.scrollLeft = dis + start;
+        if (Math.abs(dis) > Math.abs(end)) {
+          clearInterval(timer);
+        }
+      }, 2);
     },
   },
 };
