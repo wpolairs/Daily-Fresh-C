@@ -27,7 +27,7 @@ export default {
   methods: {
     getSideList(params) {
       console.log(params);
-      axios.getsidebar(params).then((res) => {
+      axios.getsidebar({ type: params }).then((res) => {
         this.sideList = res.slice(1);
       }).catch((error) => {
         console.log(error);
