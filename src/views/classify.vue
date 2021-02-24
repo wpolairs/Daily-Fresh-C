@@ -6,8 +6,8 @@
         </div>
         <top-nav @getSideList="getSideList"/>
         <template v-if="isShow">
-          <side-bar :sideList="sideList"/>
-          <goods-list />
+          <side-bar :sideList="sideList" @getGoodsList="getGoodsList"/>
+          <goods-list @getGoodsList="getGoodsList" :goodsList='goodsList'/>
         </template>
         <van-loading v-else type="spinner" color="#1989fa" />
     </div>
@@ -17,7 +17,7 @@
 import topNav from '@/components/topNav.vue';
 import sideBar from '@/components/sideBar.vue';
 import goodsList from '@/components/goodsList.vue';
-import axios from '@/api/index';
+import api from '@/api/index';
 
 export default {
   components: {
@@ -29,18 +29,41 @@ export default {
     return {
       sideList: [],
       isShow: false,
+      goodsList: [],
+      newGoodsList: [],
     };
   },
   methods: {
+    // 获取侧边导航数据
     getSideList(params) {
       this.isShow = false;
       console.log(params);
-      axios.getsidebar({ type: params }).then((res) => {
+      api.getsidebar({ type: params }).then((res) => {
         this.sideList = res;
         this.isShow = true;
       }).catch((error) => {
         console.log(error);
       });
+    },
+    // 获取商品列表数据
+    getGoodsList() {
+      console.log(this.$store.state.goodsList);
+      api.getGoodsList(this.$store.state.goodsList).then(async (res) => {
+        console.log(res);
+        if (this.goodsList.length === 0) {
+          this.goodsList = res;
+        } else {
+          this.lazyGoodsList();
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+    },
+    // 懒加载时push数据
+    async lazyGoodsList() {
+      this.$store.state.goodsList.page += 1;
+      await this.getGoodsList();
+      this.newGoodsList.push(...this.goodsList.list);
     },
   },
   created() {

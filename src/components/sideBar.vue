@@ -1,11 +1,10 @@
 <template>
   <div class="side-bar">
-    <van-sidebar v-model="activeKey">
+    <van-sidebar v-model="activeKey" @change="handleChange">
       <van-sidebar-item
       :title="typeof item === 'number' ? '全部' : item"
       v-for="(item, index) in sideList"
-      :key="index"
-      @touchend.native="handleChange($event)"/>
+      :key="index"/>
     </van-sidebar>
   </div>
 </template>
@@ -16,12 +15,24 @@ export default {
   data() {
     return {
       activeKey: 0,
+      goodsList: {
+        type: '',
+        page: 1,
+        size: 10,
+        sort: 'all',
+      },
     };
   },
   methods: {
-    handleChange(e) {
-      console.log(e.target);
+    handleChange() {
+      console.log(this.activeKey);
+      this.goodsList.type = this.sideList[this.activeKey];
+      this.$store.dispatch('setGoodList', this.goodsList);
+      this.$emit('getGoodsList');
     },
+  },
+  created() {
+    this.handleChange();
   },
 };
 </script>
