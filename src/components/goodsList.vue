@@ -23,7 +23,7 @@
             @load="onLoad"
             >
               <div class="goods-card van-hairline--bottom"
-              v-for="item in oldGoodsList" :key="item.id">
+              v-for="item in goodsList.list" :key="item.id">
                 <div class="goods-img">
                   <img :src="item.images[0]" alt="">
                 </div>
@@ -32,7 +32,7 @@
                   <div class="desc overflow-hidden">{{ item.desc }}</div>
                   <div class="tags" v-for="(tag, i) in item.tags" :key="i">{{ tag }}</div>
                   <div><span class="price">￥{{ item.price }}</span>
-                  <van-icon style="float:right" name="add" color="#ff1a90" size="36px"/></div>
+                  <van-icon style="float:right" name="add" color="#ff1a90" size="30px"/></div>
                 </div>
               </div>
           </van-list>
@@ -54,12 +54,33 @@ export default {
         sale: 'sale',
         price: 'price',
       }),
-      loading: false,
+      loading: true,
       finished: false,
       refreshing: false,
-      oldGoodsList: [],
-      lock: true,
+      // oldGoodsList: [],
+      timer: null,
+      t: null,
     };
+  },
+  watch: {
+    goodsList: {
+      handler(data) {
+        this.finished = false;
+        this.loading = true;
+        clearInterval(this.t);
+        if (data.list !== undefined) {
+          if (data.total <= data.list.length) {
+            console.log('数据全部拿到');
+            this.finished = true;
+            this.loading = false;
+          }
+        }
+        this.t = setTimeout(() => {
+          this.loading = false;
+        }, 1000);
+      },
+      deep: true,
+    },
   },
   methods: {
     handleChange(type) {
@@ -72,41 +93,26 @@ export default {
     },
     onLoad() {
       // 没有更多数据时
-      if (this.finished) {
-        return;
-      }
-      if (this.goodsList.list !== undefined && this.lock) {
-        this.oldGoodsList.push(...this.goodsList.list);
-      }
-      console.log(this.refreshing, this.lock, 'if');
-      if (this.refreshing) {
-        this.goodsList.list = [];
-        this.$emit('getGoodsList');
-        this.refreshing = false;
-      }
-      if (!this.lock) {
-        this.lock = true;
+      this.loading = true;
+      console.log('发送了');
+      setTimeout(() => {
         this.$store.state.goodsList.page += 1;
+        console.log(this.$store.state.goodsList.page);
         this.$emit('getGoodsList');
-        console.log(this.oldGoodsList, this.goodsList.list, 'res---------------');
-        // this.oldGoodsList.push(...this.goodsList.list);
-        if (this.goodsList.total <= this.goodsList.list.length) {
-          console.log('数据全部拿到');
-          this.finished = true;
-        }
-        this.lock = false;
-      }
-      this.loading = false;
+        this.loading = false;
+      }, 1500);
     },
     onRefresh() {
-      console.log('1');
-      // 清空列表数据
-      this.finished = false;
-
-      // 重新加载数据
-      // 将 loading 设置为 true，表示处于加载状态
+      console.log('刷新');
       this.loading = true;
-      // this.onLoad();
+      // 清空列表数据
+      this.$emit('clearGoodsList');
+      this.$store.state.goodsList.page = 1;
+      // 重新加载数据
+      this.$emit('getGoodsList');
+      this.refreshing = false;
+      this.finished = false;
+      // 将 loading 设置为 true，表示处于加载状态
     },
   },
   created() {

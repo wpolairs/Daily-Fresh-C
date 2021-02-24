@@ -26,8 +26,10 @@ export default {
   methods: {
     handleChange() {
       console.log(this.activeKey);
+      this.goodsList.page = 1;
       this.goodsList.type = this.sideList[this.activeKey];
       this.$store.dispatch('setGoodList', this.goodsList);
+      this.$emit('clearGoodsList');
       this.$emit('getGoodsList');
     },
   },

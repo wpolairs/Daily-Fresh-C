@@ -6,8 +6,12 @@
         </div>
         <top-nav @getSideList="getSideList"/>
         <template v-if="isShow">
-          <side-bar :sideList="sideList" @getGoodsList="getGoodsList"/>
-          <goods-list @getGoodsList="getGoodsList" :goodsList='goodsList'/>
+          <side-bar :sideList="sideList" @getGoodsList="getGoodsList"
+          @clearGoodsList='clearGoodsList'/>
+          <goods-list
+          @getGoodsList="getGoodsList"
+          @clearGoodsList='clearGoodsList'
+          :goodsList='goodsList'/>
         </template>
         <van-loading v-else type="spinner" color="#1989fa" />
     </div>
@@ -30,7 +34,6 @@ export default {
       sideList: [],
       isShow: false,
       goodsList: [],
-      newGoodsList: [],
     };
   },
   methods: {
@@ -53,17 +56,16 @@ export default {
         if (this.goodsList.length === 0) {
           this.goodsList = res;
         } else {
-          this.lazyGoodsList();
+          this.goodsList.list.push(...res.list);
         }
+        return true;
       }).catch((error) => {
         console.log(error);
       });
     },
-    // 懒加载时push数据
-    async lazyGoodsList() {
-      this.$store.state.goodsList.page += 1;
-      await this.getGoodsList();
-      this.newGoodsList.push(...this.goodsList.list);
+    // 清空商品列表
+    clearGoodsList() {
+      this.goodsList = [];
     },
   },
   created() {
