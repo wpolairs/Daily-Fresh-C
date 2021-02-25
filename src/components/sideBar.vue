@@ -19,7 +19,6 @@ export default {
   },
   methods: {
     handleChange() {
-      console.log(this.activeKey);
       this.$store.dispatch('setRequestInfo', {
         type: this.sideList[this.activeKey],
         page: 1,

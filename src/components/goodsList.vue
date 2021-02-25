@@ -21,9 +21,11 @@
             :finished="finished"
             finished-text="没有更多了"
             @load="onLoad"
+            :immediate-check='false'
             >
               <div class="goods-card van-hairline--bottom"
-              v-for="item in goodsList.list" :key="item.id">
+                   v-for="item in goodsList.list"
+                   :key="item.id">
                 <div class="goods-img">
                   <img :src="item.images[0]" alt="">
                 </div>
@@ -54,9 +56,10 @@ export default {
         sale: 'sale',
         price: 'price',
       }),
-      loading: true,
+      loading: false,
       finished: false,
       refreshing: false,
+      page: 1, // 当前页面
       // oldGoodsList: [],
       timer: null,
       t: null,
@@ -66,24 +69,26 @@ export default {
     goodsList: {
       handler(data) {
         this.finished = false;
-        this.loading = true;
-        clearInterval(this.t);
+        // this.loading = true;
+        // clearInterval(this.t);
         if (data.list !== undefined) {
+          this.loading = false;
           if (data.total <= data.list.length) {
             console.log('数据全部拿到');
             this.finished = true;
-            this.loading = false;
+            this.loading = true;
           }
+          return;
         }
-        this.t = setTimeout(() => {
-          this.loading = false;
-        }, 1000);
+        this.loading = true;
       },
       deep: true,
     },
   },
   methods: {
+    // 商品筛选
     handleChange(type) {
+      this.loading = true;
       if (type === 'price') {
         this.isUp = !this.isUp;
         this.sort = this.isUp ? 'price-up' : 'price-down';
@@ -97,17 +102,21 @@ export default {
       this.$emit('clearGoodsList');
       this.$emit('getGoodsList');
     },
+    // 商品列表懒加载
     onLoad() {
-      // 没有更多数据时
+      // true表示正在加载数据
       this.loading = true;
       console.log('发送了');
+      this.$store.dispatch('setRequestInfo', {
+        page: this.page + 1,
+      });
+      console.log(this.$store.state.goodsList.page);
+      this.$emit('getGoodsList');
       setTimeout(() => {
-        this.$store.state.goodsList.page += 1;
-        console.log(this.$store.state.goodsList.page);
-        this.$emit('getGoodsList');
         this.loading = false;
       }, 1500);
     },
+    // 下拉刷新
     onRefresh() {
       this.loading = true;
       // 清空列表数据
