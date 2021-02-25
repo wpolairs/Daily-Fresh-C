@@ -8,18 +8,18 @@ export default new Vuex.Store({
     goodsList: {
       type: '',
       page: '',
-      size: '',
-      sort: '',
+      size: '10',
+      sort: 'all',
     },
   },
   mutations: {
-    setGoodList(state, goodsList) {
-      state.goodsList = goodsList;
+    setRequestInfo(state, info) {
+      state.goodsList = { ...state.goodsList, ...info };
     },
   },
   actions: {
-    setGoodList({ commit }, goodsList) {
-      commit('setGoodList', goodsList);
+    setRequestInfo({ commit }, info) {
+      commit('setRequestInfo', info);
     },
   },
   modules: {

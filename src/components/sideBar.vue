@@ -15,20 +15,15 @@ export default {
   data() {
     return {
       activeKey: 0,
-      goodsList: {
-        type: '',
-        page: 1,
-        size: 10,
-        sort: 'all',
-      },
     };
   },
   methods: {
     handleChange() {
       console.log(this.activeKey);
-      this.goodsList.page = 1;
-      this.goodsList.type = this.sideList[this.activeKey];
-      this.$store.dispatch('setGoodList', this.goodsList);
+      this.$store.dispatch('setRequestInfo', {
+        type: this.sideList[this.activeKey],
+        page: 1,
+      });
       this.$emit('clearGoodsList');
       this.$emit('getGoodsList');
     },

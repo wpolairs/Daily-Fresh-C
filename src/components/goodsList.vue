@@ -10,7 +10,7 @@
         @touchend='handleChange("sale")'
         >销量</div>
         <div
-        :class="{ active: sort === 'price' }"
+        :class="{ active: sort === 'price-up' || sort === 'price-down' }"
         @touchend='handleChange("price")'
         >价格<van-icon :name="isUp ? 'arrow-up' : 'arrow-down'" /></div>
     </div>
@@ -84,11 +84,17 @@ export default {
   },
   methods: {
     handleChange(type) {
-      this.sort = this.typeObj[type];
-      this.$store.state.goodsList.sort = this.sort;
-      if (this.type === 'price') {
+      if (type === 'price') {
         this.isUp = !this.isUp;
+        this.sort = this.isUp ? 'price-up' : 'price-down';
+      } else {
+        this.sort = this.typeObj[type];
       }
+      this.$store.dispatch('setRequestInfo', {
+        sort: this.sort,
+        page: 1,
+      });
+      this.$emit('clearGoodsList');
       this.$emit('getGoodsList');
     },
     onLoad() {
@@ -103,7 +109,6 @@ export default {
       }, 1500);
     },
     onRefresh() {
-      console.log('刷新');
       this.loading = true;
       // 清空列表数据
       this.$emit('clearGoodsList');
@@ -112,14 +117,9 @@ export default {
       this.$emit('getGoodsList');
       this.refreshing = false;
       this.finished = false;
-      // 将 loading 设置为 true，表示处于加载状态
     },
   },
   created() {
-    // if (this.goodsList.list !== undefined) {
-    //   console.log('进来了');
-    //   this.oldGoodsList = this.goodsList.list;
-    // }
   },
 };
 </script>
