@@ -34,7 +34,14 @@
                   <div class="desc overflow-hidden">{{ item.desc }}</div>
                   <div class="tags" v-for="(tag, i) in item.tags" :key="i">{{ tag }}</div>
                   <div><span class="price">￥{{ item.price }}</span>
-                  <van-icon style="float:right" name="add" color="#ff1a90" size="30px"/></div>
+                  <div class="count">
+                    <div class="muins"
+                    v-show="goodsCount[item.id]"
+                    @touchend='countChange(item.id, -1)'>-</div>
+                    <div class="num"
+                    v-show="goodsCount[item.id]">{{ goodsCount[item.id] }}</div>
+                    <div class="add" @touchend='countChange(item.id, 1)'>+</div>
+                  </div>
                 </div>
               </div>
           </van-list>
@@ -63,14 +70,13 @@ export default {
       // oldGoodsList: [],
       timer: null,
       t: null,
+      goodsCount: this.$store.state.goodsCount,
     };
   },
   watch: {
     goodsList: {
       handler(data) {
         this.finished = false;
-        // this.loading = true;
-        // clearInterval(this.t);
         if (data.list !== undefined) {
           this.loading = false;
           if (data.total <= data.list.length) {
@@ -126,6 +132,9 @@ export default {
       this.$emit('getGoodsList');
       this.refreshing = false;
       this.finished = false;
+    },
+    countChange(id, num) {
+      this.$store.dispatch('setGoodsCount', { id, num });
     },
   },
   created() {
@@ -200,6 +209,19 @@ export default {
           color: #ff1a90;
           font-size: 14px;
           float: left;
+        }
+        .count{
+          float: right;
+          font-size: 14px;
+          display: flex;
+          div{
+            width: 30px;
+            text-align: center;
+          }
+          &:not(.num){
+            color: #ff1a90;
+            font-size: 16px;
+          }
         }
       }
     }
