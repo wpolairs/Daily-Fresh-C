@@ -24,10 +24,10 @@
             :immediate-check='false'
             >
               <div class="goods-card van-hairline--bottom"
-                   v-for="item in goodsList.list"
+                   v-for="(item, index) in goodsList.list"
                    :key="item.id">
                 <div class="goods-img">
-                  <img :src="item.images[0]" alt="">
+                  <img :src="item.images[0]" alt="" ref="img">
                 </div>
                 <div class="info">
                   <div class="title overflow-hidden">{{ item.title }}</div>
@@ -40,7 +40,7 @@
                     @touchend='countChange(item.id, -1)'>-</div>
                     <div class="num"
                     v-show="goodsCount[item.id]">{{ goodsCount[item.id] }}</div>
-                    <div class="add" @touchend='countChange(item.id, 1)'>+</div>
+                    <div class="add" @touchend='countChange(item.id, 1, index)'>+</div>
                   </div>
                 </div>
               </div>
@@ -51,6 +51,8 @@
 </template>
 
 <script>
+import Animate from '@/tools/';
+
 export default {
   props: ['goodsList'],
   data() {
@@ -133,8 +135,34 @@ export default {
       this.refreshing = false;
       this.finished = false;
     },
-    countChange(id, num) {
+    // 添加商品
+    countChange(id, num, index) {
       this.$store.dispatch('setGoodsCount', { id, num });
+      if (num === -1) {
+        return;
+      }
+      // 商品飞入购物车动画
+      Animate(this.getImgPosition(index));
+    },
+    // 获取图片位置
+    getImgPosition(index) {
+      // 当前点击商品图片位置
+      const { img } = this.$refs;
+      const {
+        top: imgTop, left: imgLeft, width, height,
+      } = img[index].getBoundingClientRect();
+      const { top: carTop, left: carLeft } = document.getElementById('shopCar').getBoundingClientRect();
+      const disx = carLeft - imgLeft;
+      const disy = carTop - imgTop;
+      return {
+        imgLeft,
+        imgTop,
+        width,
+        height,
+        disx,
+        disy,
+        src: img[index].src,
+      };
     },
   },
   created() {
