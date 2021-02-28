@@ -4,6 +4,7 @@ import home from '@/views/home.vue';
 import classify from '@/views/classify.vue';
 import shoping from '@/views/shoping.vue';
 import me from '@/views/me.vue';
+import search from '@/views/search.vue';
 
 Vue.use(VueRouter);
 
@@ -17,6 +18,11 @@ const routes = [
     path: '/classify',
     name: 'classify',
     component: classify,
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: search,
   },
   {
     path: '/shoping',

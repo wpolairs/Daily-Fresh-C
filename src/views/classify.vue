@@ -1,9 +1,9 @@
 <template>
     <div class="classify">
-        <div class="searchBtn">
+        <router-link class="searchBtn" tag="div" to="/search">
             <van-icon name="search" />
             <div class="text">香蕉10元一斤</div>
-        </div>
+        </router-link>
         <top-nav @getSideList="getSideList"/>
         <template v-if="isShow">
           <side-bar :sideList="sideList" @getGoodsList="getGoodsList"

@@ -14,7 +14,7 @@ export default {
     return axios.get('/likeSearch', { params });
   },
   // 搜索
-  search(params) {
+  searchGoods(params) {
     return axios.get('/search', { params });
   },
   // 根据商品列表进行搜素
