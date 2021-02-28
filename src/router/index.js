@@ -6,6 +6,11 @@ import shoping from '@/views/shoping.vue';
 import me from '@/views/me.vue';
 import search from '@/views/search.vue';
 
+VueRouter.prototype.back = false;
+VueRouter.prototype.goBack = function goBack() {
+  this.back = true;
+  this.go(-1);
+};
 Vue.use(VueRouter);
 
 const routes = [
