@@ -235,9 +235,9 @@ export default {
             color: #ff1a90;
             font-size: 16px;
             }
+          }
         }
-        }
-    }
+      }
     }
 }
 </style>

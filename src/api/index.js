@@ -17,8 +17,8 @@ export default {
   searchGoods(params) {
     return axios.get('/search', { params });
   },
-  // 根据商品列表进行搜素
+  // 根据商品id进行搜素
   getGoodsByIds(params) {
-    return axios.get('/getGoodsByIds', params);
+    return axios.get('/getGoodsByIds', { params });
   },
 };

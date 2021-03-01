@@ -18,8 +18,8 @@ export default new Vuex.Store({
       state.goodsList = { ...state.goodsList, ...info };
     },
     setGoodsCount(state, { id, num }) {
-      console.log(JSON.parse(window.localStorage.getItem('goodsCount')), state.goodsCount);
       if (!state.goodsCount[id]) {
+        console.log('ddd');
         Vue.set(state.goodsCount, id, 1);
         return;
       }
