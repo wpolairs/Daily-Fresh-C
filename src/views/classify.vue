@@ -1,8 +1,10 @@
 <template>
     <div class="classify">
-        <router-link class="searchBtn" tag="div" to="/search">
+        <router-link class="searchBtn" to="/search" custom v-slot="{ navigate }">
+          <div @click="navigate" role="link">
             <van-icon name="search" />
             <div class="text">香蕉10元一斤</div>
+          </div>
         </router-link>
         <top-nav @getSideList="getSideList"/>
         <template v-if="isShow">

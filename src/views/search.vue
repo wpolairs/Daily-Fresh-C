@@ -33,7 +33,7 @@
         </van-list>
     </div>
     <div class="list-content" v-show="!isShow">
-        <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+        <van-pull-refresh v-model="refreshing" @refresh="onRefresh" :head-height="80">
           <van-list
             v-model="loading"
             :finished="finished"
@@ -62,6 +62,7 @@
                   </div>
                 </div>
               </div>
+            </div>
           </van-list>
         </van-pull-refresh>
     </div>
@@ -78,6 +79,7 @@ export default {
       timer: null,
       searchList: [],
       loading: false,
+      refreshing: false,
       finished: false,
       page: 1,
       size: 10,
@@ -96,6 +98,8 @@ export default {
       console.log('搜索', val);
       api.searchGoods({ type: val, page: this.page, size: this.size }).then((res) => {
         this.isShow = false;
+        this.refreshing = false;
+        this.loading = false;
         this.goodsList = [...this.goodsList, ...res.list];
         if (this.goodsList.length >= res.total) {
           this.finished = true;
@@ -142,6 +146,14 @@ export default {
       this.page += 1;
       this.onSearch(this.value);
     },
+    onRefresh() {
+      this.goodsList = [];
+      this.refreshing = true;
+      this.loading = true;
+      this.finished = false;
+      this.page = 1;
+      this.onSearch(this.value);
+    },
   },
 };
 </script>
@@ -167,7 +179,7 @@ export default {
   }
     .list-content{
     position: fixed;
-    bottom: 50px;
+    bottom: 0;
     top: 55px;
     left: 0;
     right: 0;

@@ -33,7 +33,7 @@
                   <div class="title overflow-hidden">{{ item.title }}</div>
                   <div class="desc overflow-hidden">{{ item.desc }}</div>
                   <div class="tags" v-for="(tag, i) in item.tags" :key="i">{{ tag }}</div>
-                  <div><span class="price">￥{{ item.price }}</span>
+                  <div><span class="price">￥{{ item.price }}</span></div>
                   <div class="count">
                     <div class="muins"
                     v-show="goodsCount[item.id]"
