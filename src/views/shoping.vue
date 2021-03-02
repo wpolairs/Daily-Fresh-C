@@ -44,7 +44,7 @@
         </van-checkbox-group>
     </div>
     <div class="shop-submit">
-      <van-submit-bar :price="price" button-text="提交订单" @submit="onSubmit">
+      <van-submit-bar :price="totalPrice" button-text="提交订单" @submit="onSubmit">
         <van-checkbox v-model="checked" @click="checkAll">全选</van-checkbox>
       </van-submit-bar>
     </div>
@@ -57,16 +57,24 @@ import api from '@/api';
 export default {
   data() {
     return {
-      checked: false,
-      price: 3000,
+      checked: true,
+      totalPrice: 0,
       shopInfo: this.$store.state.goodsCount,
       goodsList: [],
       result: [],
     };
   },
+  watch: {
+    result: {
+      handler(data) {
+        console.log(data, 'data');
+      },
+    },
+  },
   methods: {
     getSelectedShop() {
       const shopsID = Object.keys(this.shopInfo).join();
+      this.result = shopsID;
       api.getGoodsByIds({ value: shopsID }).then((res) => {
         this.goodsList = res.list;
       });
