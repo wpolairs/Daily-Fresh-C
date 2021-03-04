@@ -67,6 +67,12 @@ export default {
   watch: {
     result: {
       handler(data) {
+        if (this.goodsList.length) {
+          this.getTotalPrice();
+        }
+        if (!data.length) {
+          this.checked = false;
+        }
         console.log(data, 'data');
       },
     },
@@ -74,15 +80,17 @@ export default {
   methods: {
     getSelectedShop() {
       const shopsID = Object.keys(this.shopInfo).join();
-      this.result = shopsID;
+      this.result = Object.keys(this.shopInfo).map(Number);
       api.getGoodsByIds({ value: shopsID }).then((res) => {
         this.goodsList = res.list;
+        this.getTotalPrice();
       });
     },
     // 添加商品
     countChange(id, num, index) {
       this.$store.dispatch('setGoodsCount', { id, num });
       // this.shopInfo = JSON.parse(window.localStorage.getItem('goodsCount'));
+      this.getTotalPrice();
       console.log(this.shopInfo, 'shopInfor');
       if (num === -1) {
         return;
@@ -90,6 +98,18 @@ export default {
       // 商品飞入购物车动画
       console.log(index);
       // Animate(this.getImgPosition(index));
+    },
+    // 计算总价格
+    getTotalPrice() {
+      this.totalPrice = 0;
+      console.log(this.goodsList, this.shopInfo, this.totalPrice);
+      this.result.forEach((id) => {
+        this.goodsList.forEach((item) => {
+          if (item.id === id) {
+            this.totalPrice += this.shopInfo[id] * item.price * 100;
+          }
+        });
+      });
     },
     // 是否全选
     checkAll() {
