@@ -73,7 +73,6 @@ export default {
         if (!data.length) {
           this.checked = false;
         }
-        console.log(data, 'data');
       },
     },
   },
@@ -115,7 +114,14 @@ export default {
     checkAll() {
       this.$refs.checkboxGroup.toggleAll(this.checked);
     },
-    OnRemove() {},
+    // 移出购物车选中的商品
+    OnRemove() {
+      this.$store.dispatch('removeGoodsCount', this.result);
+      this.result.forEach((id) => {
+        this.goodsList = this.goodsList.filter((item) => item.id !== id);
+      });
+      this.getTotalPrice();
+    },
     onSubmit() {},
   },
   created() {

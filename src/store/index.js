@@ -26,6 +26,14 @@ export default new Vuex.Store({
       state.goodsCount[id] += num;
       window.localStorage.setItem('goodsCount', JSON.stringify(state.goodsCount));
     },
+    // 删除商品
+    removeGoodsCount(state, id) {
+      id.forEach((item) => {
+        // delete state.goodsCount[item];
+        Vue.delete(state.goodsCount, item);
+      });
+      window.localStorage.setItem('goodsCount', JSON.stringify(state.goodsCount));
+    },
   },
   actions: {
     setRequestInfo({ commit }, info) {
@@ -33,6 +41,9 @@ export default new Vuex.Store({
     },
     setGoodsCount({ commit }, obj) {
       commit('setGoodsCount', obj);
+    },
+    removeGoodsCount({ commit }, id) {
+      commit('removeGoodsCount', id);
     },
   },
   modules: {

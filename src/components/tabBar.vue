@@ -20,13 +20,7 @@ export default {
     count() {
       const goodsCountArr = Object.values(this.$store.state.goodsCount);
       const num = goodsCountArr.reduce((pre, item) => pre + item, 0);
-      if (num >= 99) {
-        return 99;
-      }
-      if (num === 0) {
-        return '';
-      }
-      return num;
+      return num >= 99 ? 99 : num;
     },
   },
 };
