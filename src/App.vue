@@ -21,25 +21,25 @@ export default {
     };
   },
   watch: {
-    // $route(to, from) {
-    //   if (to.name === 'classify' && from.name === 'search') {
-    //     this.$router.back = true;
-    //   }
-    //   if ((to.name === 'classify' && from.name === 'search') ||
-    // (to.name === 'search' && from.name === 'classify')) {
-    //     if (this.$router.back) {
-    //       this.modeType = 'out-in';
-    //       this.transitionName = 'right';
-    //     } else {
-    //       this.modeType = 'in-out';
-    //       this.transitionName = 'left';
-    //     }
-    //     this.$router.back = false;
-    //   } else {
-    //     this.modeType = 'out-in';
-    //     this.transitionName = '';
-    //   }
-    // },
+    $route(to, from) {
+      if (to.name === 'classify' && from.name === 'search') {
+        this.$router.back = true;
+      }
+      if ((to.name === 'classify' && from.name === 'search')
+      || (to.name === 'search' && from.name === 'classify')) {
+        if (this.$router.back) {
+          this.modeType = 'out-in';
+          this.transitionName = 'right';
+        } else {
+          this.modeType = 'in-out';
+          this.transitionName = 'left';
+        }
+        this.$router.back = false;
+      } else {
+        this.modeType = 'out-in';
+        this.transitionName = '';
+      }
+    },
   },
 };
 </script>
