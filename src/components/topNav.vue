@@ -21,7 +21,7 @@ export default {
     return {
       isActive: 0,
       move: true,
-      tabList: [
+      tabList: Object.freeze([
         {
           imgUrl: 'https://cdn.pixabay.com/photo/2010/12/13/10/05/berries-2277__340.jpg',
           title: '时令水果',
@@ -54,7 +54,7 @@ export default {
           imgUrl: 'https://cdn.pixabay.com/photo/2019/01/11/07/30/japan-3926602__340.jpg',
           title: '海鲜水产',
         },
-      ],
+      ]),
     };
   },
   methods: {

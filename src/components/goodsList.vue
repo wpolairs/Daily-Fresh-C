@@ -82,7 +82,6 @@ export default {
         if (data.list !== undefined) {
           this.loading = false;
           if (data.total <= data.list.length) {
-            console.log('数据全部拿到');
             this.finished = true;
             this.loading = true;
           }
@@ -114,11 +113,9 @@ export default {
     onLoad() {
       // true表示正在加载数据
       this.loading = true;
-      console.log('发送了');
       this.$store.dispatch('setRequestInfo', {
         page: this.page + 1,
       });
-      console.log(this.$store.state.goodsList.page);
       this.$emit('getGoodsList');
       setTimeout(() => {
         this.loading = false;

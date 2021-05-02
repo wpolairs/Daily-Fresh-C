@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <transition :name='transitionName' :mode="modeType">
-      <router-view class="view"/>
+      <keep-alive>
+        <router-view class="view"/>
+      </keep-alive>
     </transition>
     <tab-bar />
   </div>
@@ -62,6 +64,11 @@ body{
   width: 100%;
   transition: transform .3s linear;
   background-color: #fff;
+}
+.overflow{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .left-enter, .right-leave-to{
   transform: translate(100%, 0);

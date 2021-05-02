@@ -1,11 +1,6 @@
 <template>
     <div class="classify">
-        <router-link class="searchBtn" to="/search" custom v-slot="{ navigate }">
-          <div @click="navigate" role="link">
-            <van-icon name="search" />
-            <div class="text">香蕉10元一斤</div>
-          </div>
-        </router-link>
+        <search></search>
         <top-nav @getSideList="getSideList"/>
         <template v-if="isShow">
           <side-bar :sideList="sideList" @getGoodsList="getGoodsList"
@@ -20,6 +15,7 @@
 </template>
 
 <script>
+import search from '@/components/searchInput.vue';
 import topNav from '@/components/topNav.vue';
 import sideBar from '@/components/sideBar.vue';
 import goodsList from '@/components/goodsList.vue';
@@ -27,6 +23,7 @@ import api from '@/api/index';
 
 export default {
   components: {
+    search,
     topNav,
     sideBar,
     goodsList,
@@ -78,17 +75,6 @@ export default {
 
 <style scoped lang='less'>
 .classify{
-    .searchBtn{
-        margin: 11px auto;
-        width: 355px;
-        height: 33px;
-        background-color: #eee;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 10px;
-        color: #a1a1a1;
-    }
     .van-loading{
       margin-top: 150px;
     }

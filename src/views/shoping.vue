@@ -124,7 +124,7 @@ export default {
     },
     onSubmit() {},
   },
-  created() {
+  activated() {
     this.getSelectedShop();
   },
 };
