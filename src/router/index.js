@@ -1,10 +1,13 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import home from '@/views/home.vue';
-import classify from '@/views/classify.vue';
-import shoping from '@/views/shoping.vue';
-import me from '@/views/me.vue';
-import search from '@/views/search.vue';
+
+const home = () => import('@/views/home.vue');
+const classify = () => import('@/views/classify.vue');
+const shoping = () => import('@/views/shoping.vue');
+const me = () => import('@/views/me.vue');
+const search = () => import('@/views/search.vue');
+const address = () => import('@/components/address.vue');
+const edit = () => import('@/components/edit.vue');
 
 VueRouter.prototype.back = false;
 VueRouter.prototype.goBack = function goBack() {
@@ -38,6 +41,22 @@ const routes = [
     path: '/me',
     name: 'me',
     component: me,
+  },
+  {
+    path: '/address',
+    name: 'address',
+    meta: {
+      title: '选择地址',
+    },
+    component: address,
+  },
+  {
+    path: '/edit',
+    name: 'edit',
+    meta: {
+      title: '编辑地址',
+    },
+    component: edit,
   },
   {
     path: '*',

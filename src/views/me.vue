@@ -66,7 +66,7 @@
                 <h2>我的服务</h2>
             </div>
             <div class="serviceInfo">
-              <div>
+              <div @click="setAddress">
                   <van-icon name="map-marked" size="35px" color="#08c4c4bd"/>
                   <p>收货地址</p>
               </div>
@@ -97,6 +97,12 @@ export default {
       fruitCurrency: '1314',
       point: '9999',
     };
+  },
+  methods: {
+    // 设置收货地址
+    setAddress() {
+      this.$router.push({ path: '/address' });
+    },
   },
   computed: {
     balance() {
