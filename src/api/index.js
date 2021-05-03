@@ -21,4 +21,8 @@ export default {
   getGoodsByIds(params) {
     return axios.get('/getGoodsByIds', { params });
   },
+  // 获取客服回复
+  getRobotReply(params) {
+    return axios.get('https://developer.duyiedu.com/edu/turing/chat', { params });
+  },
 };

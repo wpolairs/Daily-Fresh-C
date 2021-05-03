@@ -70,10 +70,12 @@
                   <van-icon name="map-marked" size="35px" color="#08c4c4bd"/>
                   <p>收货地址</p>
               </div>
-              <div>
-                  <van-icon name="service" size="35px" color="#08c4c4bd"/>
-                  <p>客服和帮助</p>
-              </div>
+              <router-link to="/customerService" custom v-slot='{ navigate }'>
+                <div role="link" @click="navigate">
+                    <van-icon name="service" size="35px" color="#08c4c4bd"/>
+                    <p>客服和帮助</p>
+                </div>
+              </router-link>
               <div>
                   <van-icon name="setting" size="35px" color="#08c4c4bd"/>
                   <p>设置</p>

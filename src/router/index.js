@@ -8,6 +8,7 @@ const me = () => import('@/views/me.vue');
 const search = () => import('@/views/search.vue');
 const address = () => import('@/components/address.vue');
 const edit = () => import('@/components/edit.vue');
+const customerService = () => import('@/views/customerService.vue');
 
 VueRouter.prototype.back = false;
 VueRouter.prototype.goBack = function goBack() {
@@ -57,6 +58,14 @@ const routes = [
       title: '编辑地址',
     },
     component: edit,
+  },
+  {
+    path: '/customerService',
+    name: 'customerService',
+    meta: {
+      title: '客服服务',
+    },
+    component: customerService,
   },
   {
     path: '*',
