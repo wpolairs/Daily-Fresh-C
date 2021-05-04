@@ -95,7 +95,6 @@ export default {
         return;
       }
       this.value = val;
-      console.log('搜索', val);
       api.searchGoods({ type: val, page: this.page, size: this.size }).then((res) => {
         this.isShow = false;
         this.refreshing = false;
@@ -104,7 +103,6 @@ export default {
         if (this.goodsList.length >= res.total) {
           this.finished = true;
         }
-        console.log(res);
       });
     },
     onInput(val) {
@@ -114,16 +112,13 @@ export default {
         this.value = '';
         return;
       }
-      console.log(val);
       clearInterval(this.timer);
       this.isShow = true;
       this.timer = setTimeout(() => {
-        console.log(val, '输入');
         api.likeSearch({ likeValue: val }).then((res) => {
           this.searchList = res.result;
           this.loading = false;
           // this.finished = true;
-          console.log(this.searchList);
         });
       }, 500);
     },
@@ -132,14 +127,8 @@ export default {
       return text.replace(reg, this.value.fontcolor('red'));
     },
     // 添加商品
-    countChange(id, num, index) {
+    countChange(id, num) {
       this.$store.dispatch('setGoodsCount', { id, num });
-      if (num === -1) {
-        return;
-      }
-      // 商品飞入购物车动画
-      console.log(index);
-    //   Animate(this.getImgPosition(index));
     },
     onLoad() {
       this.loading = true;

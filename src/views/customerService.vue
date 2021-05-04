@@ -58,7 +58,7 @@ export default {
           <div class="text">${data}</div>`;
       infoDom.appendChild(div);
       infoDom.scrollBy({
-        top: 500,
+        top: 1000,
         behavior: 'smooth',
       });
     },

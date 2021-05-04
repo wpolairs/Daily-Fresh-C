@@ -41,6 +41,12 @@
         </div>
       </div>
           </van-checkbox>
+          <van-empty
+          v-if="goodsList.length === 0"
+          class="custom-image"
+          image="https://img01.yzcdn.cn/vant/custom-empty-image.png"
+          description="空空如也"
+        />
         </van-checkbox-group>
     </div>
     <div class="shop-submit">
@@ -53,6 +59,7 @@
 
 <script>
 import api from '@/api';
+import { Dialog } from 'vant';
 
 export default {
   data() {
@@ -86,22 +93,14 @@ export default {
       });
     },
     // 添加商品
-    countChange(id, num, index) {
+    countChange(id, num) {
       this.$store.dispatch('setGoodsCount', { id, num });
       // this.shopInfo = JSON.parse(window.localStorage.getItem('goodsCount'));
       this.getTotalPrice();
-      console.log(this.shopInfo, 'shopInfor');
-      if (num === -1) {
-        return;
-      }
-      // 商品飞入购物车动画
-      console.log(index);
-      // Animate(this.getImgPosition(index));
     },
     // 计算总价格
     getTotalPrice() {
       this.totalPrice = 0;
-      console.log(this.goodsList, this.shopInfo, this.totalPrice);
       this.result.forEach((id) => {
         this.goodsList.forEach((item) => {
           if (item.id === id) {
@@ -116,11 +115,21 @@ export default {
     },
     // 移出购物车选中的商品
     OnRemove() {
-      this.$store.dispatch('removeGoodsCount', this.result);
-      this.result.forEach((id) => {
-        this.goodsList = this.goodsList.filter((item) => item.id !== id);
-      });
-      this.getTotalPrice();
+      Dialog.confirm({
+        title: '',
+        message: '确定要删除选中商品',
+      })
+        .then(() => {
+          this.$store.dispatch('removeGoodsCount', this.result);
+          this.result.forEach((id) => {
+            this.goodsList = this.goodsList.filter((item) => item.id !== id);
+          });
+          this.getTotalPrice();
+        // on confirm
+        })
+        .catch(() => {
+        // on cancel
+        });
     },
     onSubmit() {},
   },
@@ -206,6 +215,10 @@ export default {
           }
         }
       }
+    }
+    /deep/.custom-image .van-empty__image {
+      width: 90px;
+      height: 90px;
     }
   }
 }

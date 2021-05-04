@@ -11,7 +11,9 @@
                 <div class="userName">{{ userName }}</div>
             </div>
             <div class="prompt">
-                <van-icon class="service" name="service" size="50px" />
+                <router-link to="/customerService">
+                    <van-icon class="service" name="service" size="50px" />
+                </router-link>
                 <van-icon name="bell" size="50px" />
             </div>
         </div>

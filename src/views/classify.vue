@@ -39,19 +39,14 @@ export default {
     // 获取侧边导航数据
     getSideList(params) {
       this.isShow = false;
-      console.log(params);
       api.getsidebar({ type: params }).then((res) => {
         this.sideList = res;
         this.isShow = true;
-      }).catch((error) => {
-        console.log(error);
       });
     },
     // 获取商品列表数据
     getGoodsList() {
-      console.log(this.$store.state.goodsList);
       api.getGoodsList(this.$store.state.goodsList).then(async (res) => {
-        console.log(res);
         if (this.goodsList.length === 0) {
           this.goodsList = res;
         } else {
@@ -59,7 +54,7 @@ export default {
         }
         return true;
       }).catch((error) => {
-        console.log(error);
+        throw error;
       });
     },
     // 清空商品列表
