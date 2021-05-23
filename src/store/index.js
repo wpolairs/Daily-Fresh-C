@@ -11,7 +11,7 @@ export default new Vuex.Store({
       size: '10',
       sort: 'all',
     },
-    goodsCount: JSON.parse(window.localStorage.getItem('goodsCount')) || {},
+    goodsCount: JSON.parse(localStorage.getItem('goodsCount')) || {},
   },
   mutations: {
     setRequestInfo(state, info) {
@@ -20,10 +20,11 @@ export default new Vuex.Store({
     setGoodsCount(state, { id, num }) {
       if (!state.goodsCount[id]) {
         Vue.set(state.goodsCount, id, 1);
+        localStorage.setItem('goodsCount', JSON.stringify(state.goodsCount));
         return;
       }
       state.goodsCount[id] += num;
-      window.localStorage.setItem('goodsCount', JSON.stringify(state.goodsCount));
+      localStorage.setItem('goodsCount', JSON.stringify(state.goodsCount));
     },
     // 删除商品
     removeGoodsCount(state, id) {
@@ -31,7 +32,7 @@ export default new Vuex.Store({
         // delete state.goodsCount[item];
         Vue.delete(state.goodsCount, item);
       });
-      window.localStorage.setItem('goodsCount', JSON.stringify(state.goodsCount));
+      localStorage.setItem('goodsCount', JSON.stringify(state.goodsCount));
     },
   },
   actions: {

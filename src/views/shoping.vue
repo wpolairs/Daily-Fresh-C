@@ -131,7 +131,9 @@ export default {
         // on cancel
         });
     },
-    onSubmit() {},
+    onSubmit() {
+      console.log(this.totalPrice);
+    },
   },
   activated() {
     this.getSelectedShop();
