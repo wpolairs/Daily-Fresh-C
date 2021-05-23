@@ -59,7 +59,7 @@
 
 <script>
 import api from '@/api';
-import { Dialog } from 'vant';
+import { Dialog, Toast } from 'vant';
 
 export default {
   data() {
@@ -131,8 +131,22 @@ export default {
         // on cancel
         });
     },
+    // 提交订单
     onSubmit() {
-      console.log(this.totalPrice);
+      if (!this.totalPrice > 0) {
+        if (this.goodsList.length === 0) {
+          Toast('购物车是空的，快去挑选商品吧');
+          return;
+        }
+        Toast('请选择要下单的商品');
+        return;
+      }
+      this.$router.push({
+        path: '/pay',
+        query: {
+          totalPrice: this.totalPrice,
+        },
+      });
     },
   },
   activated() {

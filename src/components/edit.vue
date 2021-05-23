@@ -55,6 +55,7 @@ export default {
         address.push(content);
         localStorage.setItem('address', JSON.stringify(address));
       }
+      Toast('保存成功');
     },
     // 删除地址
     onDelete() {
@@ -91,14 +92,8 @@ export default {
 }
 </style>
 <style lang='less'>
-.van-picker__columns{
-  // height: 264px !important;
-}
 .van-picker-column__item{
   // height: 22px!important;
   font-size: 14px !important;
-}
-.van-picker-column__wrapper{
-  // padding: 100px 0;
 }
 </style>
